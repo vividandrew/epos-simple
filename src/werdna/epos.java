@@ -9,10 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import static werdna.UI.getProductButton;
+import werdna.items.Basket_Item;
 import werdna.items.Whisky;
 import werdna.items.Whisky_Data;
 
@@ -26,11 +28,33 @@ public class epos extends javax.swing.JFrame {
      * Creates new form epos
      */
     JButton buttonTemplate;
+    ArrayList<Basket_Item> basket = new ArrayList();
     
     
     public epos() {
         initComponents();
         setTabs();
+        //TestData();
+    }
+    
+    private void TestData()
+    {
+        Whisky whisky = new Whisky(0, "Test Data", "", "", 53.99);
+        
+        basket.add(new Basket_Item(whisky, Byte.valueOf("3")));
+        
+        JLabel[] titles = {lblProductTitle, lblAmountTitle, lblCostTitle};
+        
+        JLabel[] item = basket.get(0).getLabels(titles, 10);
+        JButton[] btns = basket.get(0).getButtons(titles, 10);
+        
+        
+        pnlBasketItems.add(item[0]);
+        pnlBasketItems.add(item[1]);
+        pnlBasketItems.add(item[2]);
+        
+        pnlBasketItems.add(btns[0]);
+        pnlBasketItems.add(btns[1]);
     }
     
     private void setTabs()
@@ -126,11 +150,14 @@ public class epos extends javax.swing.JFrame {
         btnDecSelected = new javax.swing.JButton();
         lblSelectedProductName = new javax.swing.JLabel();
         pnlBasket = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblProductTitle = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        pnlBasetItems = new javax.swing.JPanel();
+        pnlBasketItems = new javax.swing.JPanel();
+        lblCostTitle = new javax.swing.JLabel();
+        lblAmountTitle = new javax.swing.JLabel();
+        btnUpdateBasket = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAdmin = new javax.swing.JMenu();
         mnuExit = new javax.swing.JMenu();
@@ -168,6 +195,11 @@ public class epos extends javax.swing.JFrame {
         jScrollPane3.setViewportView(txtDescription);
 
         btnAddBasket.setText("Add to Basket");
+        btnAddBasket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddBasketActionPerformed(evt);
+            }
+        });
 
         txtCountSelected.setText("1");
         txtCountSelected.setAutoscrolls(false);
@@ -239,24 +271,37 @@ public class epos extends javax.swing.JFrame {
 
         tabs.addTab("Selected Item", pnlSelectedItem);
 
-        jLabel1.setText("Product                     Amount                                 Cost");
+        lblProductTitle.setText("Product");
 
         jLabel2.setText("Total:");
 
-        lblTotal.setText("£0.00");
+        lblTotal.setText("0.00");
 
-        javax.swing.GroupLayout pnlBasetItemsLayout = new javax.swing.GroupLayout(pnlBasetItems);
-        pnlBasetItems.setLayout(pnlBasetItemsLayout);
-        pnlBasetItemsLayout.setHorizontalGroup(
-            pnlBasetItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        javax.swing.GroupLayout pnlBasketItemsLayout = new javax.swing.GroupLayout(pnlBasketItems);
+        pnlBasketItems.setLayout(pnlBasketItemsLayout);
+        pnlBasketItemsLayout.setHorizontalGroup(
+            pnlBasketItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 377, Short.MAX_VALUE)
         );
-        pnlBasetItemsLayout.setVerticalGroup(
-            pnlBasetItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlBasketItemsLayout.setVerticalGroup(
+            pnlBasketItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 224, Short.MAX_VALUE)
         );
 
-        jScrollPane4.setViewportView(pnlBasetItems);
+        jScrollPane4.setViewportView(pnlBasketItems);
+
+        lblCostTitle.setText("Cost");
+
+        lblAmountTitle.setText("amount");
+
+        btnUpdateBasket.setText("Update");
+        btnUpdateBasket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateBasketActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBasketLayout = new javax.swing.GroupLayout(pnlBasket);
         pnlBasket.setLayout(pnlBasketLayout);
@@ -267,12 +312,19 @@ public class epos extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBasketLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(pnlBasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4)
                             .addGroup(pnlBasketLayout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane4)))
+                                .addGap(19, 19, 19)
+                                .addComponent(lblProductTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(lblAmountTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblCostTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24))))
                     .addGroup(pnlBasketLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdateBasket)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addGap(76, 76, 76)
                         .addComponent(lblTotal)))
@@ -282,13 +334,17 @@ public class epos extends javax.swing.JFrame {
             pnlBasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBasketLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(pnlBasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblProductTitle)
+                    .addComponent(lblCostTitle)
+                    .addComponent(lblAmountTitle))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lblTotal))
+                    .addComponent(lblTotal)
+                    .addComponent(btnUpdateBasket))
                 .addContainerGap())
         );
 
@@ -321,6 +377,7 @@ public class epos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuExitMouseClicked
@@ -334,6 +391,7 @@ public class epos extends javax.swing.JFrame {
         {
             int count = Integer.parseInt(txtCountSelected.getText());
             count++;
+            if(count > 126){ count = 126;}
             txtCountSelected.setText(String.valueOf(count));
         }catch(NumberFormatException e)
         {
@@ -347,7 +405,7 @@ public class epos extends javax.swing.JFrame {
         String text = txtCountSelected.getText();
         for(char c : text.toCharArray())
         {
-            if(!isNumber(c))
+            if(!Logic.isNumber(c))
             {
                 txtCountSelected.setText("1");
                 break;
@@ -370,12 +428,104 @@ public class epos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDecSelectedActionPerformed
 
-    private boolean isNumber(char c)
-    {
-        return c == '0' || c == '1' || c == '2' || c == '3' || c == '4' 
-                || c == '5' || c == '6' || c == '7' || c == '8' || c == '9';
-    }
+    private void btnAddBasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBasketActionPerformed
+        // TODO add your handling code here:
+        Whisky whisky = Whisky_Data.getSelectedWhisky(btnAddBasket.getActionCommand());
+        Double total = Double.valueOf(lblTotal.getText());
+        
+        String count = txtCountSelected.getText();
+        for(char c : count.toCharArray())
+        {
+            if(!Logic.isNumber(c))
+            {
+                txtCountSelected.setText("1");
+                break;
+            }
+        }
+        byte amount = 0;
+        try{
+            amount = Byte.valueOf(count);
+        }
+        catch(NumberFormatException e)
+        {
+            System.out.print(e);
+        }
+        
+        if (amount <= 0){return;}
+        if (amount > 126){ amount = 126;}
+        double toAdd = whisky.getPrice() * amount;
+        total += toAdd;
+        
+        
+        if(basket.size() > 0){
+        for(int i = 0; i < basket.size(); i++)
+        {
+            if(basket.get(i).getID() == whisky.getId())
+            {
+                basket.get(i).addQuantity(amount);
+                updateBasket();
+                return;
+            }
+        }}
+        
+        basket.add(new Basket_Item(whisky, amount));
+        
+        JLabel[] titles = {lblProductTitle, lblAmountTitle, lblCostTitle};
+        
+        JLabel[] item = basket.get(basket.size()-1).getLabels(titles, ((basket.size()-1)*20)+5);
+        JButton[] btns = basket.get(basket.size()-1).getButtons(titles, ((basket.size()-1)*20)+5);
+        
+        
+        pnlBasketItems.add(item[0]);
+        pnlBasketItems.add(item[1]);
+        pnlBasketItems.add(item[2]);
+        
+        pnlBasketItems.add(btns[0]);
+        pnlBasketItems.add(btns[1]);
+        
+        lblTotal.setText(String.format(String.valueOf(total),"£0.00"));
+    }//GEN-LAST:event_btnAddBasketActionPerformed
+
+    private void btnUpdateBasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBasketActionPerformed
+        // TODO add your handling code here:
+        updateBasket();
+    }//GEN-LAST:event_btnUpdateBasketActionPerformed
+
     
+    public void updateBasket()
+    {
+                                                      
+        // TODO add your handling code here:
+        JLabel[] titles = {lblProductTitle, lblAmountTitle, lblCostTitle};
+        pnlBasketItems.removeAll();
+        double total = 0.00;
+        for(int i = 0; i < basket.size(); i++)
+        {
+            if(basket.get(i).getQuantity() == 0)
+            {
+                basket.remove(basket.get(i));
+                continue;
+            }
+            
+            
+            total += basket.get(i).getPrice();
+            
+            JLabel[] item = basket.get(i).getLabels(titles, (i*20)+5);
+            JButton[] btns = basket.get(i).getButtons(titles, (i*20)+5);
+            
+            basket.get(i).getQuantity();
+
+            pnlBasketItems.add(item[0]);
+            pnlBasketItems.add(item[1]);
+            pnlBasketItems.add(item[2]);
+
+            pnlBasketItems.add(btns[0]);
+            pnlBasketItems.add(btns[1]);
+        }
+        
+        lblTotal.setText(String.format(String.valueOf(total),"£0.00"));
+        pnlBasketItems.updateUI();
+    }
     public ArrayList<JButton> getProductButtons(ArrayList<Whisky> whiskys)
     {
         ArrayList<JButton> btns = new ArrayList();
@@ -416,6 +566,7 @@ public class epos extends javax.swing.JFrame {
         lblSelectedProductName.setText(whisky.getName());
         txtDescription.setText(whisky.getDescription());
         txtCountSelected.setText("1");
+        btnAddBasket.setActionCommand(id);
         
         tabs.setSelectedIndex(1);
     }
@@ -459,7 +610,7 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JButton btnAddBasket;
     private javax.swing.JButton btnDecSelected;
     private javax.swing.JButton btnIncSelected;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnUpdateBasket;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -467,12 +618,15 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblAmountTitle;
+    private javax.swing.JLabel lblCostTitle;
+    private javax.swing.JLabel lblProductTitle;
     private javax.swing.JLabel lblSelectedProductName;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JMenu mnuAdmin;
     private javax.swing.JMenu mnuExit;
-    private javax.swing.JPanel pnlBasetItems;
     private javax.swing.JPanel pnlBasket;
+    private javax.swing.JPanel pnlBasketItems;
     private javax.swing.JPanel pnlProducts;
     private javax.swing.JPanel pnlSelectedItem;
     private javax.swing.JTabbedPane tabs;

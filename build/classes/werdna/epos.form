@@ -41,7 +41,7 @@
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -198,6 +198,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add to Basket"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddBasketActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCountSelected">
               <Properties>
@@ -248,15 +251,22 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel1" min="-2" pref="379" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
                                   <Component id="jScrollPane4" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                      <Component id="lblProductTitle" min="-2" pref="62" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                                      <Component id="lblAmountTitle" min="-2" pref="62" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="lblCostTitle" min="-2" pref="62" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnUpdateBasket" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                               <Component id="lblTotal" min="-2" max="-2" attributes="0"/>
@@ -270,13 +280,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblProductTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCostTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblAmountTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="226" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" pref="220" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnUpdateBasket" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -284,9 +299,9 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="lblProductTitle">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Product                     Amount                                 Cost"/>
+                <Property name="text" type="java.lang.String" value="Product"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
@@ -296,14 +311,17 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblTotal">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#xa3;0.00"/>
+                <Property name="text" type="java.lang.String" value="0.00"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+              <Properties>
+                <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
+              </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="pnlBasetItems">
+                <Container class="javax.swing.JPanel" name="pnlBasketItems">
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -320,6 +338,24 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="lblCostTitle">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cost"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblAmountTitle">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="amount"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnUpdateBasket">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Update"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateBasketActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

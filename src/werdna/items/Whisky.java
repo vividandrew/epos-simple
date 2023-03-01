@@ -14,15 +14,21 @@ public class Whisky {
     private String name;
     private String image;
     private String description;
+    private double price;
     
-    public Whisky(int id, String name, String image, String description)
+    public Whisky(int id, String name, String image, String description, double price)
     {
         this.id = id;
         this.name = name;
         this.image = image;
         this.description = description;
+        this.price = price;
     }
     
+    
+    // =========================
+    /*    GETTERS / SETTERS      */
+    // =========================
     public int getId(){return this.id;}
     
     public String getName(){return this.name;}
@@ -33,4 +39,7 @@ public class Whisky {
     
     public String getDescription(){return this.description;}
     public void setDescription(String description){this.description = description;}
+    
+    public double getPrice(){return this.price;}
+    public void setPrice(double price){this.price = price;}
 }

@@ -36,7 +36,8 @@ public class Whisky_Data {
                         rs.getInt("ID"),
                         rs.getString("Name"), 
                         rs.getString("Image"), 
-                        rs.getString("Description"))
+                        rs.getString("Description"),
+                        rs.getDouble("Price"))
                 );
             }
         }catch(SQLException e)
@@ -62,7 +63,8 @@ public class Whisky_Data {
                         rs.getInt("ID"),
                         rs.getString("Name"), 
                         rs.getString("Image"), 
-                        rs.getString("Description"))
+                        rs.getString("Description"),
+                        rs.getDouble("Price"))
                 );
             }
         }catch(SQLException e)
@@ -88,7 +90,8 @@ public class Whisky_Data {
                         rs.getInt("ID"),
                         rs.getString("Name"), 
                         rs.getString("Image"), 
-                        rs.getString("Description"))
+                        rs.getString("Description"),
+                        rs.getDouble("Price"))
                 );
             }
         }catch(SQLException e)
@@ -115,7 +118,8 @@ public class Whisky_Data {
                         rs.getInt("ID"),
                         rs.getString("Name"), 
                         rs.getString("Image"), 
-                        rs.getString("Description"))
+                        rs.getString("Description"),
+                        rs.getDouble("Price"))
                 );
             }
         }catch(SQLException e)
@@ -140,7 +144,8 @@ public class Whisky_Data {
                 rs.getInt("ID"),
                 rs.getString("Name"), 
                 rs.getString("Image"), 
-                rs.getString("Description"));
+                rs.getString("Description"),
+                rs.getDouble("Price"));
         }catch(SQLException e)
         {
             System.out.print("[!] Error: " + e);
