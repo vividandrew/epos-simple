@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import static werdna.UI.getProductButton;
+import werdna.admin.Order;
+import werdna.admin.Order_Data;
 import werdna.items.Basket_Item;
 import werdna.items.Whisky;
 import werdna.items.Whisky_Data;
@@ -158,6 +160,7 @@ public class epos extends javax.swing.JFrame {
         lblCostTitle = new javax.swing.JLabel();
         lblAmountTitle = new javax.swing.JLabel();
         btnUpdateBasket = new javax.swing.JButton();
+        btnPurchase = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAdmin = new javax.swing.JMenu();
         mnuExit = new javax.swing.JMenu();
@@ -303,6 +306,13 @@ public class epos extends javax.swing.JFrame {
             }
         });
 
+        btnPurchase.setText("Purchase");
+        btnPurchase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurchaseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBasketLayout = new javax.swing.GroupLayout(pnlBasket);
         pnlBasket.setLayout(pnlBasketLayout);
         pnlBasketLayout.setHorizontalGroup(
@@ -322,7 +332,9 @@ public class epos extends javax.swing.JFrame {
                                 .addComponent(lblCostTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24))))
                     .addGroup(pnlBasketLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(btnPurchase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpdateBasket)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
@@ -344,7 +356,8 @@ public class epos extends javax.swing.JFrame {
                 .addGroup(pnlBasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblTotal)
-                    .addComponent(btnUpdateBasket))
+                    .addComponent(btnUpdateBasket)
+                    .addComponent(btnPurchase))
                 .addContainerGap())
         );
 
@@ -491,6 +504,17 @@ public class epos extends javax.swing.JFrame {
         updateBasket();
     }//GEN-LAST:event_btnUpdateBasketActionPerformed
 
+    private void btnPurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurchaseActionPerformed
+        // TODO add your handling code here:
+        if(basket.isEmpty()){return;}
+        
+        for(int i = 0; i < basket.size(); i++)
+        {
+            Order order = Order_Data.createnewOrder(basket.get(i));
+            // TODO: Add way to add to access database
+        }
+    }//GEN-LAST:event_btnPurchaseActionPerformed
+
     
     public void updateBasket()
     {
@@ -610,6 +634,7 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JButton btnAddBasket;
     private javax.swing.JButton btnDecSelected;
     private javax.swing.JButton btnIncSelected;
+    private javax.swing.JButton btnPurchase;
     private javax.swing.JButton btnUpdateBasket;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;

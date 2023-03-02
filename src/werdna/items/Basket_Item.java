@@ -107,16 +107,6 @@ public class Basket_Item {
         return labels;
     }
     
-    public double getPrice(){return this.whisky.getPrice() * this.quantity;}
-    public int getID(){return this.whisky.getId();}
-    
-    public byte getQuantity(){return this.quantity;}
-    public void setQuantity(byte quantity)
-    {
-        if(quantity >= 126){return;}
-        this.quantity = quantity;
-    }
-    
     public void addQuantity(byte quantity)
     {
         if(this.quantity + quantity > 126)
@@ -131,4 +121,16 @@ public class Basket_Item {
         
         
     }
+    
+    public double getPrice(){return this.whisky.getPrice() * this.quantity;}
+    public int getID(){return this.whisky.getId();}
+    
+    public byte getQuantity(){return this.quantity;}
+    public void setQuantity(byte quantity)
+    {
+        if(quantity >= 126){return;}
+        this.quantity = quantity;
+    }
+    
+    public int getWhiskyID(){return this.whisky.getId();}
 }
