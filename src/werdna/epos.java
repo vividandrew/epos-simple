@@ -29,8 +29,8 @@ public class epos extends javax.swing.JFrame {
     /**
      * Creates new form epos
      */
-    JButton buttonTemplate;
     ArrayList<Basket_Item> basket = new ArrayList();
+    ArrayList<Order> Orders = new ArrayList();
     
     
     public epos() {
@@ -69,7 +69,7 @@ public class epos extends javax.swing.JFrame {
     {
         txtCountSelected.setBounds(64, 27, txtCountSelected.getX(), txtCountSelected.getY());
         txtCountSelected.setHorizontalAlignment(JTextField.CENTER);
-        tabs.setEnabledAt(1, false);
+        tbPaneOrders.setEnabledAt(1, false);
     }
     
     private void setButton()
@@ -140,7 +140,7 @@ public class epos extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        tabs = new javax.swing.JTabbedPane();
+        tbPaneOrders = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlProducts = new javax.swing.JPanel();
         pnlSelectedItem = new javax.swing.JPanel();
@@ -161,6 +161,10 @@ public class epos extends javax.swing.JFrame {
         lblAmountTitle = new javax.swing.JLabel();
         btnUpdateBasket = new javax.swing.JButton();
         btnPurchase = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        pnlOrderList = new javax.swing.JScrollPane();
+        lblOrderID = new javax.swing.JLabel();
+        lblOrderTotal = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAdmin = new javax.swing.JMenu();
         mnuExit = new javax.swing.JMenu();
@@ -189,7 +193,7 @@ public class epos extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(pnlProducts);
 
-        tabs.addTab("Products", jScrollPane1);
+        tbPaneOrders.addTab("Products", jScrollPane1);
 
         txtDescription.setEditable(false);
         txtDescription.setColumns(20);
@@ -272,7 +276,7 @@ public class epos extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        tabs.addTab("Selected Item", pnlSelectedItem);
+        tbPaneOrders.addTab("Selected Item", pnlSelectedItem);
 
         lblProductTitle.setText("Product");
 
@@ -361,7 +365,40 @@ public class epos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tabs.addTab("Basket", pnlBasket);
+        tbPaneOrders.addTab("Basket", pnlBasket);
+
+        lblOrderID.setText("Order ID#");
+
+        lblOrderTotal.setText("Order Total");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlOrderList)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(lblOrderID)
+                .addGap(60, 60, 60)
+                .addComponent(lblOrderTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(218, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOrderID)
+                    .addComponent(lblOrderTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlOrderList, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        tbPaneOrders.addTab("Orders", jPanel1);
 
         mnuAdmin.setText("Login");
         jMenuBar1.add(mnuAdmin);
@@ -380,12 +417,12 @@ public class epos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs)
+            .addComponent(tbPaneOrders)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tbPaneOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -470,7 +507,7 @@ public class epos extends javax.swing.JFrame {
         total += toAdd;
         
         
-        if(basket.size() > 0){
+        if(!basket.isEmpty()){
         for(int i = 0; i < basket.size(); i++)
         {
             if(basket.get(i).getID() == whisky.getId())
@@ -507,18 +544,35 @@ public class epos extends javax.swing.JFrame {
     private void btnPurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurchaseActionPerformed
         // TODO add your handling code here:
         if(basket.isEmpty()){return;}
-        
+        ArrayList<Order> tmpO = new ArrayList();
         for(int i = 0; i < basket.size(); i++)
         {
             Order order = Order_Data.createnewOrder(basket.get(i));
             // TODO: Add way to add to access database
+            Order_Data.addOrder(order);
+            tmpO.add(order);
         }
+        for(int i = 0; i < tmpO.size(); i++)
+        {
+            Orders.add(tmpO.get(i));
+            Order_Data.addOrder(tmpO.get(i));
+        }
+        
+        //Clear basket
+        pnlBasketItems.removeAll();
+        basket = new ArrayList();
     }//GEN-LAST:event_btnPurchaseActionPerformed
-
+    
+    public void updateOrders()
+    {
+        for(int i = 0; i < Orders.size(); i++)
+        {
+            
+        }
+    }
     
     public void updateBasket()
-    {
-                                                      
+    {                                      
         // TODO add your handling code here:
         JLabel[] titles = {lblProductTitle, lblAmountTitle, lblCostTitle};
         pnlBasketItems.removeAll();
@@ -584,7 +638,7 @@ public class epos extends javax.swing.JFrame {
     
     public void setSelectedItem(String id)
     {
-        tabs.setEnabledAt(1, true);
+        tbPaneOrders.setEnabledAt(1, true);
         Whisky whisky = Whisky_Data.getSelectedWhisky(id);
         if(whisky == null){return;}
         lblSelectedProductName.setText(whisky.getName());
@@ -592,7 +646,7 @@ public class epos extends javax.swing.JFrame {
         txtCountSelected.setText("1");
         btnAddBasket.setActionCommand(id);
         
-        tabs.setSelectedIndex(1);
+        tbPaneOrders.setSelectedIndex(1);
     }
     
     /**
@@ -638,6 +692,7 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateBasket;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -645,6 +700,8 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAmountTitle;
     private javax.swing.JLabel lblCostTitle;
+    private javax.swing.JLabel lblOrderID;
+    private javax.swing.JLabel lblOrderTotal;
     private javax.swing.JLabel lblProductTitle;
     private javax.swing.JLabel lblSelectedProductName;
     private javax.swing.JLabel lblTotal;
@@ -652,9 +709,10 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JMenu mnuExit;
     private javax.swing.JPanel pnlBasket;
     private javax.swing.JPanel pnlBasketItems;
+    private javax.swing.JScrollPane pnlOrderList;
     private javax.swing.JPanel pnlProducts;
     private javax.swing.JPanel pnlSelectedItem;
-    private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTabbedPane tbPaneOrders;
     private javax.swing.JTextField txtCountSelected;
     private javax.swing.JTextArea txtDescription;
     // End of variables declaration//GEN-END:variables

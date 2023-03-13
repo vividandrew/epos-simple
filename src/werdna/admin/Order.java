@@ -4,6 +4,7 @@
  */
 package werdna.admin;
 
+import javax.swing.JLabel;
 import werdna.items.Whisky_Data;
 
 /**
@@ -32,5 +33,5 @@ public class Order {
     }
     
     public int getId(){return this.id;}
-    public int getOrderID(){return this.OrderID;}    
+    public int getOrderID(){return this.OrderID;}
 }
