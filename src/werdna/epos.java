@@ -545,28 +545,31 @@ public class epos extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(basket.isEmpty()){return;}
         ArrayList<Order> tmpO = new ArrayList();
+        int orderID = Order_Data.getLastID()+1;
         for(int i = 0; i < basket.size(); i++)
         {
             Order order = Order_Data.createnewOrder(basket.get(i));
             // TODO: Add way to add to access database
-            Order_Data.addOrder(order);
             tmpO.add(order);
         }
         for(int i = 0; i < tmpO.size(); i++)
         {
             Orders.add(tmpO.get(i));
-            Order_Data.addOrder(tmpO.get(i));
+            Order_Data.addOrder(tmpO.get(i), orderID);
         }
         
         //Clear basket
         pnlBasketItems.removeAll();
+        pnlBasketItems.updateUI();
         basket = new ArrayList();
     }//GEN-LAST:event_btnPurchaseActionPerformed
     
     public void updateOrders()
     {
-        for(int i = 0; i < Orders.size(); i++)
+        int lastID = Order_Data.getLastID();
+        for(int i = 1; i < lastID; i++)
         {
+            int y = i*20+10;
             
         }
     }

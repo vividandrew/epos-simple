@@ -38,7 +38,7 @@ public class Order_Data {
         }
     }
     
-    public static void addOrder(Order o)
+    public static void addOrder(Order o, int orderID)
     {
         if(!Database_Data.foundDrivers()){return;}
         
@@ -46,9 +46,9 @@ public class Order_Data {
         {
             Connection con = Database_Data.getConnection();
             Statement stat = con.createStatement();
-            stat.executeUpdate("INSERT INTO Orders (id, OrderId, ItemID, Quantity)"
+            stat.executeUpdate("INSERT INTO Orders (OrderId, ItemID, Quantity)"
                     + "VALUES("
-                    + String.valueOf(o.getId())
+                    + String.valueOf(orderID)
                     + ", "
                     + String.valueOf(o.ItemID)
                     + ", "
@@ -57,7 +57,6 @@ public class Order_Data {
         }catch(SQLException e)
         {
             System.out.println("[!] Error: " + e);
-            return;
         }
     }
     
@@ -86,7 +85,21 @@ public class Order_Data {
     
     public static int getLastID()
     {
-        return 0;
+        
+        if(!Database_Data.foundDrivers()){return 1;}
+        try
+        {
+            Connection con = Database_Data.getConnection();
+            Statement stat = con.createStatement();
+            ResultSet rs = stat.executeQuery("SELECT * FROM Orders ORDER BY OrderID DESC");
+            rs.next();
+            return rs.getInt("OrderID");
+            
+        }catch(SQLException e)
+        {
+            System.out.println("[!] Error: " + e);
+            return 1;
+        }
     }
         
     public static JLabel[] getLabels( int y, JLabel orderid, JLabel total, double totalCost, int orderId)
