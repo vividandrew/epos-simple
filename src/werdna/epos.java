@@ -19,6 +19,10 @@ import werdna.admin.Order_Data;
 import werdna.items.Basket_Item;
 import werdna.items.Whisky;
 import werdna.items.Whisky_Data;
+import java.io.File;
+import java.io.IOException;
+import werdna.admin.Report;
+import werdna.admin.Report_Data;
 
 /**
  *
@@ -167,6 +171,7 @@ public class epos extends javax.swing.JFrame {
         pnlOrderList = new javax.swing.JPanel();
         lblOrderID = new javax.swing.JLabel();
         lblOrderTotal = new javax.swing.JLabel();
+        btnPrintReport = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAdmin = new javax.swing.JMenu();
         mnuExit = new javax.swing.JMenu();
@@ -390,6 +395,13 @@ public class epos extends javax.swing.JFrame {
 
         lblOrderTotal.setText("Order Total");
 
+        btnPrintReport.setText("Print");
+        btnPrintReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -403,7 +415,9 @@ public class epos extends javax.swing.JFrame {
                 .addComponent(lblOrderID)
                 .addGap(60, 60, 60)
                 .addComponent(lblOrderTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(218, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addComponent(btnPrintReport)
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +425,8 @@ public class epos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblOrderID)
-                    .addComponent(lblOrderTotal))
+                    .addComponent(lblOrderTotal)
+                    .addComponent(btnPrintReport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlOrderListprnt, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -584,6 +599,44 @@ public class epos extends javax.swing.JFrame {
         
         basket = new ArrayList();
     }//GEN-LAST:event_btnPurchaseActionPerformed
+
+    private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
+        // TODO add your handling code here:
+        String report = "";
+        String OrderList = "";
+        
+        int lastOrder = Order_Data.getLastID();
+        double min = 30000.00;
+        double max = -1.00;
+        double total = 0.00;
+        
+        
+        for(int i = 1; i > lastOrder+1; i++)
+        {
+            ArrayList<Order> orders = Order_Data.getOrderByID(i);
+            
+            for(Order o : orders)
+            {
+                if(o.getTotal() > max){max = o.getTotal();}
+                if(o.getTotal() < min){ min = o.getTotal();}
+                
+                total += o.getTotal();
+                Report r = new Report(o.getOrderID(), o.getTotal());
+                
+                OrderList += r.toString();                
+            }
+        }
+        
+        report += "The most we have made is £" + max + " in one sale\n";
+        report += "The lowest we have made is £" + min + " in one sale\n";
+        report += "On average we make around £" + max/(lastOrder+1) + " a sale\n";
+        report += "------------------------------------------------------------";
+        
+        report += Report_Data.getTitle();
+        report += OrderList;
+        
+        //TODO: Write file write report
+    }//GEN-LAST:event_btnPrintReportActionPerformed
     
     public void updateOrders()
     {
@@ -727,6 +780,7 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JButton btnAddBasket;
     private javax.swing.JButton btnDecSelected;
     private javax.swing.JButton btnIncSelected;
+    private javax.swing.JButton btnPrintReport;
     private javax.swing.JButton btnPurchase;
     private javax.swing.JButton btnUpdateBasket;
     private javax.swing.JLabel jLabel2;

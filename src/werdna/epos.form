@@ -391,7 +391,9 @@
                       <Component id="lblOrderID" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Component id="lblOrderTotal" min="-2" pref="70" max="-2" attributes="0"/>
-                      <EmptySpace pref="218" max="32767" attributes="0"/>
+                      <EmptySpace pref="118" max="32767" attributes="0"/>
+                      <Component id="btnPrintReport" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -402,6 +404,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblOrderID" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblOrderTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPrintReport" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="pnlOrderListprnt" min="-2" pref="262" max="-2" attributes="0"/>
@@ -446,6 +449,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Order Total"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnPrintReport">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Print"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintReportActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
