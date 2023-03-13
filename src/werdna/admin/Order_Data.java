@@ -106,10 +106,10 @@ public class Order_Data {
     {
         JLabel[] labels = new JLabel[2];
         labels[0] = new JLabel(String.valueOf(orderId));
-        labels[0].setBounds(orderid.getBounds().x, y, 100, 10);
+        labels[0].setBounds(orderid.getBounds().x, y, 100, 20);
         
         labels[1] = new JLabel(String.valueOf(totalCost));
-        labels[1].setBounds(total.getBounds().x, y, 100, 10);
+        labels[1].setBounds(total.getBounds().x, y, 100, 20);
         
         return labels;
     }

@@ -36,6 +36,7 @@ public class epos extends javax.swing.JFrame {
     public epos() {
         initComponents();
         setTabs();
+        updateOrders();
         //TestData();
     }
     
@@ -162,7 +163,8 @@ public class epos extends javax.swing.JFrame {
         btnUpdateBasket = new javax.swing.JButton();
         btnPurchase = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        pnlOrderList = new javax.swing.JScrollPane();
+        pnlOrderListprnt = new javax.swing.JScrollPane();
+        pnlOrderList = new javax.swing.JPanel();
         lblOrderID = new javax.swing.JLabel();
         lblOrderTotal = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -367,6 +369,23 @@ public class epos extends javax.swing.JFrame {
 
         tbPaneOrders.addTab("Basket", pnlBasket);
 
+        pnlOrderListprnt.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        pnlOrderListprnt.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        pnlOrderListprnt.setAutoscrolls(true);
+
+        javax.swing.GroupLayout pnlOrderListLayout = new javax.swing.GroupLayout(pnlOrderList);
+        pnlOrderList.setLayout(pnlOrderListLayout);
+        pnlOrderListLayout.setHorizontalGroup(
+            pnlOrderListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+        pnlOrderListLayout.setVerticalGroup(
+            pnlOrderListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 260, Short.MAX_VALUE)
+        );
+
+        pnlOrderListprnt.setViewportView(pnlOrderList);
+
         lblOrderID.setText("Order ID#");
 
         lblOrderTotal.setText("Order Total");
@@ -377,7 +396,7 @@ public class epos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlOrderList)
+                .addComponent(pnlOrderListprnt, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
@@ -394,7 +413,7 @@ public class epos extends javax.swing.JFrame {
                     .addComponent(lblOrderID)
                     .addComponent(lblOrderTotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlOrderList, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlOrderListprnt, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -561,17 +580,34 @@ public class epos extends javax.swing.JFrame {
         //Clear basket
         pnlBasketItems.removeAll();
         pnlBasketItems.updateUI();
+        updateOrders();
+        
         basket = new ArrayList();
     }//GEN-LAST:event_btnPurchaseActionPerformed
     
     public void updateOrders()
     {
+        pnlOrderList.removeAll();
         int lastID = Order_Data.getLastID();
-        for(int i = 1; i < lastID; i++)
+        for(int i = 1; i < lastID+1; i++)
         {
-            int y = i*20+10;
+            int y = (i*20)-20;
+            ArrayList<Order> orders = Order_Data.getOrderByID(i);
+            double total = 0;
+            for(Order o : orders)
+            {
+                total+= o.getTotal();
+            }
             
+            JLabel[] labels = Order_Data.getLabels(y, lblOrderID, lblOrderTotal, total, i);
+            
+            for(JLabel lbl : labels)
+            {
+                pnlOrderList.add(lbl);
+            }
         }
+        pnlOrderList.setPreferredSize(new Dimension(400,(lastID+1)*20));
+        pnlOrderList.updateUI();
     }
     
     public void updateBasket()
@@ -712,7 +748,8 @@ public class epos extends javax.swing.JFrame {
     private javax.swing.JMenu mnuExit;
     private javax.swing.JPanel pnlBasket;
     private javax.swing.JPanel pnlBasketItems;
-    private javax.swing.JScrollPane pnlOrderList;
+    private javax.swing.JPanel pnlOrderList;
+    private javax.swing.JScrollPane pnlOrderListprnt;
     private javax.swing.JPanel pnlProducts;
     private javax.swing.JPanel pnlSelectedItem;
     private javax.swing.JTabbedPane tbPaneOrders;
