@@ -1,0 +1,4 @@
+The most we have made is £-1.0 in one sale
+The lowest we have made is £30000.0 in one sale
+On average we make around £-0.05555555555555555 a sale
+------------------------------------------------------------Order#		Order total

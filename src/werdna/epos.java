@@ -19,7 +19,7 @@ import werdna.admin.Order_Data;
 import werdna.items.Basket_Item;
 import werdna.items.Whisky;
 import werdna.items.Whisky_Data;
-import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import werdna.admin.Report;
 import werdna.admin.Report_Data;
@@ -609,23 +609,29 @@ public class epos extends javax.swing.JFrame {
         double min = 30000.00;
         double max = -1.00;
         double total = 0.00;
-        
+        ArrayList<Report> reports = new ArrayList();
         
         for(int i = 1; i > lastOrder+1; i++)
         {
             ArrayList<Order> orders = Order_Data.getOrderByID(i);
-            
+            double tmpTotal = 0.00;
             for(Order o : orders)
             {
-                if(o.getTotal() > max){max = o.getTotal();}
-                if(o.getTotal() < min){ min = o.getTotal();}
-                
-                total += o.getTotal();
-                Report r = new Report(o.getOrderID(), o.getTotal());
-                
-                OrderList += r.toString();                
+                tmpTotal+= o.getTotal();
             }
+            
+            if(tmpTotal > max){max = tmpTotal;}
+            if(tmpTotal < min){ min = tmpTotal;}
+            
+            total += tmpTotal;
+            
+            Report r = new Report(i, tmpTotal);
+            reports.add(r);
         }
+        //TODO: ADD REPORT ORDER LIST
+        
+        
+        
         
         report += "The most we have made is £" + max + " in one sale\n";
         report += "The lowest we have made is £" + min + " in one sale\n";
@@ -636,6 +642,16 @@ public class epos extends javax.swing.JFrame {
         report += OrderList;
         
         //TODO: Write file write report
+        try
+        {
+            FileWriter reportFile = new FileWriter("report.txt");
+            reportFile.write(report);
+            reportFile.close();
+        }catch(IOException e)
+        {
+            System.out.println("[!] Error: " + e);
+        }
+        
     }//GEN-LAST:event_btnPrintReportActionPerformed
     
     public void updateOrders()
